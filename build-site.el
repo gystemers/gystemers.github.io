@@ -19,8 +19,8 @@
              :html-head "<link rel=\"stylesheet\" href=\"static/css/style.css\" />\n"
              :html-head-include-default-style nil
 
-	     ;; フッター(postamble)を出さない
-	     :html-postamble nil
+	     ;; ★ postamble を「© 藤本教寛（沖縄高専）」だけにする
+	     :html-postamble "<p class=\"author\">&copy; 藤本教寛（沖縄高専） / Yukihiro Fujimoto (Okinawa KOSEN)</p></div>\n"
 	     )
 
        ;; Static -> docs/static 以下へコピー（階層を保持）

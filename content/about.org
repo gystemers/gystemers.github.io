@@ -1,5 +1,10 @@
 #+TITLE: About
- #+options: toc:nil num:nil
+ #+options: toc:nil num:nil \n:t
 
 * 自己紹介
-ここにプロフィールを書きます．
+- 名前：藤本教寛 / Yukihiro Fujimoto
+- 所属：沖縄工業高等専門学校（沖縄高専）　基盤教育科
+- 専門：素粒子論
+  * キーワード：高次元ゲージ理論，余剰次元理論，超対称性量子力学，標準模型を越える物理，フェルミオンの世代数問題，質量階層性問題，
+
+  [[file:index.org][戻る]]
