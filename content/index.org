@@ -1,7 +1,8 @@
 #+TITLE:My Homepage
 #+options: toc:nil num:nil
-
 * ようこそ
 これは，Orgから生成したホームページです．
 Emacs-mac を活用しながら，更新していきたい所存です．
+
+cssが一緒にコピーされるといいのですが．
 - [[file:about.org][About]]

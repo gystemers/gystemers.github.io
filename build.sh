@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+set -eu
 
-#!/bin/sh
-emacs -Q --script build-site.el
+emacs -Q --batch \
+  -l build-site.el
