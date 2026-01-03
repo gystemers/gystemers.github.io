@@ -1,0 +1,7 @@
+#+TITLE:My Homepage
+#+options: toc:nil num:nil
+
+* ようこそ
+これは，Orgから生成したホームページです．
+
+- [[file:about.org][About]]
