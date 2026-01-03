@@ -188,3 +188,72 @@ h1.title::after {
     grid-template-columns: 1fr;
   }
 }
+
+
+
+/* =========================================================
+   Postamble（フッター）：線を1本にして、#content幅に揃える
+   ========================================================= */
+
+/* まず「余計な線（border-top）」を全部無効化して二重線を止める */
+#postamble,
+#postamble.status,
+.status {
+  border-top: none !important;
+}
+
+/* #postamble を #content と同じ幅・同じ左右余白に揃える */
+#postamble {
+  max-width: var(--content-max);
+  margin: 3rem auto 0;
+  padding: 1.2rem var(--content-pad) 2rem;
+  color: rgba(235,237,238,.65);
+  text-align: center;
+  font-size: .95rem;
+  letter-spacing: .04em;
+}
+
+/* ここで「1本だけ」線を引く（#postambleの幅＝#content幅） */
+#postamble::before {
+  content: "";
+  display: block;
+  height: 1px;
+  background: rgba(255,255,255,.08); /* 「ようこそ」上の線と同系統に */
+  margin: 0 auto 1.2rem;             /* 線と © の間隔 */
+}
+
+/* pの余白を消して中央に綺麗に */
+#postamble p { margin: 0; }
+
+
+/* =========================================================
+   Postamble に残る「謎の短い線」を強制除去
+   ========================================================= */
+
+/* postamble 内にある線の原因になりがちなものを全部無効化 */
+#postamble hr {
+  display: none !important;
+}
+
+#postamble,
+#postamble * {
+  border: none !important;          /* 子要素も含めて境界線を全部消す */
+  background-image: none !important;/* 背景の線っぽい装飾も消す */
+  box-shadow: none !important;      /* 影が線に見えるケースも潰す */
+}
+
+/* 疑似要素が原因の可能性もあるので、全部潰してから… */
+#postamble::after,
+#postamble p::before,
+#postamble p::after {
+  content: none !important;
+}
+
+/* …欲しい「長い線」だけをここで改めて作る（1本に固定） */
+#postamble::before {
+  content: "";
+  display: block;
+  height: 1px;
+  background: rgba(255,255,255,.08);
+  margin: 0 auto 1.2rem;
+}
