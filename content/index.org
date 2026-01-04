@@ -1,4 +1,4 @@
-#+TITLE:Beyond the Standard
+#+TITLE:Oh my GUT
 #+options: toc:nil num:nil \n:t
 #+LANGUAGE: ja
 * ようこそ

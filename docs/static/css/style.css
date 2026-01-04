@@ -49,20 +49,6 @@ body {
 }
 
 /* =========================================================
-   Desktop banding fix: use dithered raster background on non-touch
-   Put bg_dither_2560x1600.png under static/img/ and adjust path if needed.
-   ========================================================= */
-@media (hover: hover) and (pointer: fine) {
-  body {
-    background-image: url("../img/bg_dither_2560x1600.png");
-    background-size: cover;
-    background-position: 50% 0%;
-    background-repeat: no-repeat;
-    /* background-attachment: fixed;  // uncomment if you like fixed background */
-  }
-}
-
-/* =========================================================
    Content container
    ========================================================= */
 #content {
@@ -262,4 +248,67 @@ figure figcaption { text-align: center; }
       transform: none;
     }
   }
+}
+
+
+/* =========================================================
+   背景を「CSSだけ」で再構成（グラデ + 生成ノイズ）
+   - 画像ファイル背景をやめる
+   - バンディング対策に feTurbulence ノイズを薄く重ねる
+   ========================================================= */
+
+:root{
+  --page-bg:
+    radial-gradient(1200px 800px at 50% -10%, rgba(66,185,255,.10), transparent 60%),
+    radial-gradient(900px 600px at 10% 30%, rgba(255,255,255,.06), transparent 55%),
+    linear-gradient(180deg, #11161b 0%, #1a232a 40%, #11161b 100%);
+
+  /* ノイズ強度（大きいほどザラつく） */
+  --noise-opacity: .08;
+}
+
+/* 下地 */
+html{ background-color:#11161b; }
+
+/* bodyは背景を持たない（背景はhtmlの疑似要素へ） */
+body{ background: none !important; }
+
+/* メイン背景（多層グラデ） */
+html::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background: var(--page-bg);
+  background-color:#11161b;
+}
+
+/* ノイズ（feTurbulenceで生成）: “画像ファイル”ではなくSVGをCSSに埋め込む */
+html::after{
+  content:"";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  /* SVGフィルタ feTurbulence は Perlinノイズを生成できる [1](https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/feTurbulence) */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='512' height='512'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 512px 512px;
+
+  opacity: var(--noise-opacity);
+
+  /* ここが効く：ノイズを上に重ねるとバンディングが目立ちにくい [2](https://css-tricks.com/grainy-gradients/)[3](https://www.bstefanski.com/blog/noisygrainy-backgrounds-and-gradients-in-css) */
+  mix-blend-mode: overlay;
+}
+
+/* デスクトップだけノイズを有効化（スマホはノイズなしでも良い場合が多い） */
+@media (hover: hover) and (pointer: fine){
+  html::after{ opacity: var(--noise-opacity); }
+}
+
+/* スマホではノイズを弱める/切る（お好み） */
+@media (hover: none) and (pointer: coarse){
+  html::after{ opacity: .04; }  /* 0 にすると完全OFF */
 }
