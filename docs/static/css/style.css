@@ -1,8 +1,8 @@
 @charset "utf-8";
 /* =========================================================
    Lab / Personal page style (Org export friendly)
-   - consolidated + mobile padding 1.4rem
-   - desktop banding fix: dithered background image
+   - cleaned & consolidated (2026-01-04)
+   - Background: CSS gradients + generated noise (no image files)
    ========================================================= */
 
 :root {
@@ -21,36 +21,83 @@
   /* layout */
   --content-max: 62rem;
   --content-pad: 1.5rem;
-  --content-pad-mobile: 1.4rem; /* ←スマホの左右余白 */
+  --content-pad-mobile: 1.4rem; /* スマホ左右余白 */
 
   /* typography */
   --body-lh: 1.9;
 
-  /* CSS gradient fallback */
+  /* background (single source of truth) */
   --page-bg:
     radial-gradient(1200px 800px at 50% -10%, rgba(66,185,255,.10), transparent 60%),
     radial-gradient(900px 600px at 10% 30%, rgba(255,255,255,.06), transparent 55%),
     linear-gradient(180deg, #11161b 0%, #1a232a 40%, #11161b 100%);
+
+  /* noise strength (bigger -> more grain) */
+  --noise-opacity: .08;
+  --noise-opacity-coarse: .04; /* touch devices */
 }
 
+/* reset */
 *, *::before, *::after { box-sizing: border-box; }
-
 html, body { height: 100%; }
+
+/* ---------------------------------------------------------
+   Base typography (background is handled by html::before/after)
+   --------------------------------------------------------- */
+html { background-color: #11161b; }
 
 body {
   margin: 0;
   color: var(--bg-inverse-color);
   line-height: var(--body-lh);
   letter-spacing: .02em;
+  background: none !important; /* avoid competing backgrounds */
+}
 
-  /* fallback first */
+/* ---------------------------------------------------------
+   Background layers
+   - ::before : multi-layer gradient
+   - ::after  : generated noise (SVG feTurbulence)
+   --------------------------------------------------------- */
+html::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
   background: var(--page-bg);
   background-color: #11161b;
 }
 
-/* =========================================================
-   Content container
-   ========================================================= */
+html::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  /* SVG feTurbulence (Perlin-like noise) inlined as data URI */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='512' height='512'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 512px 512px;
+
+  opacity: var(--noise-opacity);
+  mix-blend-mode: overlay;
+}
+
+/* desktop: keep configured noise */
+@media (hover: hover) and (pointer: fine) {
+  html::after { opacity: var(--noise-opacity); }
+}
+
+/* touch devices: reduce noise (can set to 0 to disable completely) */
+@media (hover: none) and (pointer: coarse) {
+  html::after { opacity: var(--noise-opacity-coarse); }
+}
+
+/* ---------------------------------------------------------
+   Content container (Org export)
+   --------------------------------------------------------- */
 #content {
   max-width: var(--content-max);
   margin: 0 auto;
@@ -115,7 +162,9 @@ h1.title::after {
   text-decoration: underline;
   text-underline-offset: .18em;
 }
+
 #content a:visited { color: var(--link-visited); }
+
 #content a:hover,
 #content a:focus-visible {
   color: var(--link-hover);
@@ -134,6 +183,7 @@ h1.title::after {
   margin: 1.4rem 0;
   text-align: center;
 }
+
 #content figcaption {
   margin-top: .6rem;
   font-size: .92rem;
@@ -164,18 +214,22 @@ h1.title::after {
   align-items: center;
   margin: 1.6rem 0 2.4rem;
 }
+
 .hero-3 .hero-text {
   text-align: center;
   color: rgba(235,237,238,.88);
   font-size: .98rem;
 }
+
 .hero-3 .hero-text strong {
   display: block;
   margin-bottom: .4rem;
   color: rgba(235,237,238,.95);
 }
 
-/* footer */
+/* ---------------------------------------------------------
+   Footer (postamble)
+   --------------------------------------------------------- */
 #postamble,
 #postamble.status,
 .status { border-top: none !important; }
@@ -200,115 +254,44 @@ h1.title::after {
 
 #postamble p { margin: 0; }
 #postamble hr { display: none !important; }
-#postamble, #postamble * {
+
+/* remove accidental short rules inside postamble */
+#postamble,
+#postamble * {
   border: none !important;
   background-image: none !important;
   box-shadow: none !important;
 }
+
 #postamble::after,
 #postamble p::before,
 #postamble p::after { content: none !important; }
 
+/* org figure centering (extra safety) */
 figure, div.figure {
   text-align: center;
   margin-left: auto;
   margin-right: auto;
 }
+
 figure img, div.figure img {
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
+
 figure figcaption { text-align: center; }
 
-/* mobile */
+/* ---------------------------------------------------------
+   Mobile
+   --------------------------------------------------------- */
 @media (max-width: 760px) {
   #content { padding: 1.6rem var(--content-pad-mobile) 3.2rem; }
   #postamble { padding-left: var(--content-pad-mobile); padding-right: var(--content-pad-mobile); }
   .hero-3 { grid-template-columns: 1fr; }
+
+  /* mobile viewport height stability */
   html, body { min-height: 100vh; }
   @supports (height: 100svh) { html, body { min-height: 100svh; } }
   @supports (height: 100dvh) { html, body { min-height: 100dvh; } }
-}
-
-/* iOS seam fix (only real small touch devices) */
-@supports (-webkit-touch-callout: none) {
-  @media (max-device-width: 760px) and (hover: none) and (pointer: coarse) {
-    html, body { background: none !important; }
-    body { background-color: transparent !important; }
-    html { background-color: #11161b; }
-    html::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      background: var(--page-bg);
-      background-color: #11161b;
-      transform: none;
-    }
-  }
-}
-
-
-/* =========================================================
-   背景を「CSSだけ」で再構成（グラデ + 生成ノイズ）
-   - 画像ファイル背景をやめる
-   - バンディング対策に feTurbulence ノイズを薄く重ねる
-   ========================================================= */
-
-:root{
-  --page-bg:
-    radial-gradient(1200px 800px at 50% -10%, rgba(66,185,255,.10), transparent 60%),
-    radial-gradient(900px 600px at 10% 30%, rgba(255,255,255,.06), transparent 55%),
-    linear-gradient(180deg, #11161b 0%, #1a232a 40%, #11161b 100%);
-
-  /* ノイズ強度（大きいほどザラつく） */
-  --noise-opacity: .08;
-}
-
-/* 下地 */
-html{ background-color:#11161b; }
-
-/* bodyは背景を持たない（背景はhtmlの疑似要素へ） */
-body{ background: none !important; }
-
-/* メイン背景（多層グラデ） */
-html::before{
-  content:"";
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  pointer-events: none;
-  background: var(--page-bg);
-  background-color:#11161b;
-}
-
-/* ノイズ（feTurbulenceで生成）: “画像ファイル”ではなくSVGをCSSに埋め込む */
-html::after{
-  content:"";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-
-  /* SVGフィルタ feTurbulence は Perlinノイズを生成できる [1](https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/feTurbulence) */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='512' height='512'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 512px 512px;
-
-  opacity: var(--noise-opacity);
-
-  /* ここが効く：ノイズを上に重ねるとバンディングが目立ちにくい [2](https://css-tricks.com/grainy-gradients/)[3](https://www.bstefanski.com/blog/noisygrainy-backgrounds-and-gradients-in-css) */
-  mix-blend-mode: overlay;
-}
-
-/* デスクトップだけノイズを有効化（スマホはノイズなしでも良い場合が多い） */
-@media (hover: hover) and (pointer: fine){
-  html::after{ opacity: var(--noise-opacity); }
-}
-
-/* スマホではノイズを弱める/切る（お好み） */
-@media (hover: none) and (pointer: coarse){
-  html::after{ opacity: .04; }  /* 0 にすると完全OFF */
 }
