@@ -327,14 +327,50 @@ body{
   background: none;
 }
 
-/* 固定の背景レイヤー（スクロールやURLバー変化の影響を受けにくい） */
-body::before{
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background: var(--page-bg);
-  background-color: #11161b; /* フォールバック */
-  pointer-events: none;      /* 背景がクリックを邪魔しないように */
-  transform: translateZ(0);  /* 合成安定化の“おまじない” */
+
+
+/* =========================================================
+   iOS(WebKit) + モバイル限定：固定背景を html::before に移す（改・対策D）
+   - スクロール開始で出る“帯(継ぎ目)”を減らす狙い
+   - 末尾に置いて既存指定を上書き（後勝ち）
+   ========================================================= */
+
+/* 背景（あなたの body の background と同じ内容） */
+:root{
+  --page-bg:
+    radial-gradient(1200px 800px at 50% -10%, rgba(66,185,255,.10), transparent 60%),
+    radial-gradient(900px 600px at 10% 30%, rgba(255,255,255,.06), transparent 55%),
+    linear-gradient(180deg, #11161b 0%, #1a232a 40%, #11161b 100%);
+}
+
+/* iOS(WebKit)判定の定番: -webkit-touch-callout が使える時だけ */
+@supports (-webkit-touch-callout: none) {
+
+  /* モバイル幅だけ適用（必要なら 760px を調整） */
+  @media (max-width: 760px) {
+
+    /* html/body の直塗り背景は無効化（疑似要素に一本化） */
+    html, body { background: none !important; }
+
+    /* もし body に背景色が見えると困るので透明に */
+    body { background-color: transparent !important; }
+
+    /* 下地の色（万一グラデが描けない瞬間の保険） */
+    html { background-color: #11161b; }
+
+    /* 固定背景レイヤー：html::before */
+    html::before{
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+
+      background: var(--page-bg);
+      background-color: #11161b;
+
+      /* まずは“変な合成を誘発しない”設定を優先 */
+      transform: none;
+    }
+  }
 }
