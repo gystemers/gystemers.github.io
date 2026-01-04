@@ -184,17 +184,21 @@ h1.title::after {
 /* モバイルは縦並び */
 @media (max-width: 760px) {
   #content { padding: 1.6rem 1rem 3.2rem; }
-  .hero-3 {
-    grid-template-columns: 1fr;
+  .hero-3 { grid-template-columns: 1fr; }
+
+  /* まずは確実に効くフォールバック */
+  html, body { min-height: 100vh; }
+
+  /* svh が使えるなら svh を採用（URLバー表示時の“見えている高さ”寄り） */
+  @supports (height: 100svh) {
+    html, body { min-height: 100svh; }
   }
-  html, body{
-    min-height: 100vh;   /* フォールバック */
-    min-height: 100svh;  /* “小さい”表示領域基準 */
-    min-height: 100dvh;  /* アドレスバー伸縮に追従 */
+
+  /* dvh が使えるなら dvh を採用（URLバーの出入りに追従） */
+  @supports (height: 100dvh) {
+    html, body { min-height: 100dvh; }
   }
 }
-
-
 
 /* =========================================================
    Postamble（フッター）：線を1本にして、#content幅に揃える
