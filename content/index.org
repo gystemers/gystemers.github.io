@@ -1,11 +1,11 @@
-#+TITLE:Oh my "GUT"
+#+TITLE:Beyond the Standard
 #+options: toc:nil num:nil \n:t
 #+LANGUAGE: ja
 
 #+begin_export html
 <div style="text-align:center">
 #+end_export
-MacOSを活用したい素粒子論屋さん（別にGUTはやっていない）の知識まとめページ
+MacOSを活用したい素粒子論屋さんが，EmacsのOrg-modeで作る知識まとめページ
 #+begin_export html
 </div>
 #+end_export
@@ -14,9 +14,17 @@ MacOSを活用したい素粒子論屋さん（別にGUTはやっていない）
 - [[file:intro.org][初めに]]
 - [[file:about.org][自己紹介（初めての人以外，無用の長物）]]
 - [[file:diary.org][徒然なるままに日記（日々更新…したい）]]
+* MacOSのショートカット
+- [[file:shortcut.org][知っておくと便利なショートカットたち]]
 * 便利アプリに関するアレコレ
 - [[file:app.org][便利なアプリ増えてます]]
 * 日本語入力関係
 - [[file:input_method.org][JISキーボードでqwerty配列でローマ字入力ですか，そうですか]]
 * Emacs（エディタ）関係
-- ミレニアム・ファルコンが好きな人だけ使えば良い
+- Emacs：ミレニアム・ファルコンが好きな人だけ使えば良い
+- Vim：タイファイターの思想が好きな人はこれ
+- Visual Studio Code (VS Code)：エディター界のX-ウィング．とりあえずは，これでいいのでは？
+* 珈琲に関するアレコレ
+- いっぱいあるドリッパー
+- いっぱいある豆の種類
+- いっぱいある焙煎度合い（焙煎機）

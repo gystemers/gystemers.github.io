@@ -295,3 +295,19 @@ figure figcaption { text-align: center; }
   @supports (height: 100svh) { html, body { min-height: 100svh; } }
   @supports (height: 100dvh) { html, body { min-height: 100dvh; } }
 }
+
+
+/* ---------------------------------------------------------
+   Org table alignment helpers (Org export tables only)
+   - "org-left/org-center/org-right" クラスを持つセルがある table のみ対象
+   --------------------------------------------------------- */
+table td.org-center, table th.org-center { text-align: center; }
+table td.org-left,   table th.org-left   { text-align: left; }
+table td.org-right,  table th.org-right  { text-align: right; }
+
+/* Org tables: header row always centered (Org export th のみ対象) */
+table thead th.org-left,
+table thead th.org-center,
+table thead th.org-right {
+  text-align: center !important;
+}
