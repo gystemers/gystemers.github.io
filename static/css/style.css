@@ -305,3 +305,36 @@ body{
   background: var(--page-bg);
   background-color: #11161b;
 }
+
+
+
+/* =========================================================
+   iOS/WebKit向け: 背景を固定の疑似要素レイヤーに移す（対策D）
+   末尾に置いて既存の body 背景を上書きする
+   ========================================================= */
+
+/* 背景内容を変数化（bodyの既存 background と同じ内容をここに置く） */
+:root{
+  --page-bg:
+    radial-gradient(1200px 800px at 50% -10%, rgba(66,185,255,.10), transparent 60%),
+    radial-gradient(900px 600px at 10% 30%, rgba(255,255,255,.06), transparent 55%),
+    linear-gradient(180deg, #11161b 0%, #1a232a 40%, #11161b 100%);
+}
+
+/* bodyに直接背景を塗るのをやめる（既存の body { background: ... } を後勝ちで無効化） */
+body{
+  position: relative;
+  background: none;
+}
+
+/* 固定の背景レイヤー（スクロールやURLバー変化の影響を受けにくい） */
+body::before{
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--page-bg);
+  background-color: #11161b; /* フォールバック */
+  pointer-events: none;      /* 背景がクリックを邪魔しないように */
+  transform: translateZ(0);  /* 合成安定化の“おまじない” */
+}
