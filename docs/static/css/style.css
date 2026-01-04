@@ -187,6 +187,11 @@ h1.title::after {
   .hero-3 {
     grid-template-columns: 1fr;
   }
+  html, body{
+    min-height: 100vh;   /* フォールバック */
+    min-height: 100svh;  /* “小さい”表示領域基準 */
+    min-height: 100dvh;  /* アドレスバー伸縮に追従 */
+  }
 }
 
 
@@ -274,4 +279,25 @@ figure img, div.figure img {
 
 figure figcaption {
   text-align: center;
+}
+
+
+/* bodyで使っている背景を変数化してhtmlにも適用 */
+/* これで，スマホから見ても背景に途切れが出にくくなるはず*/
+:root{
+  --page-bg:
+    radial-gradient(1200px 800px at 50% -10%, rgba(66,185,255,.10), transparent 60%),
+    radial-gradient(900px 600px at 10% 30%, rgba(255,255,255,.06), transparent 55%),
+    linear-gradient(180deg, #11161b 0%, #1a232a 40%, #11161b 100%);
+}
+
+/* “下地”のhtmlにも同じ背景（最低でも同じ背景色） */
+html{
+  background: var(--page-bg);
+  background-color: #11161b; /* フォールバック */
+}
+
+body{
+  background: var(--page-bg);
+  background-color: #11161b;
 }
