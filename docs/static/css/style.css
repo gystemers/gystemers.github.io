@@ -21,7 +21,7 @@
   /* layout */
   --content-max: 62rem;     /* ~992px */
   --content-pad: 1.5rem;   /* desktop/tablet */
-  --content-pad-mobile: 1.2rem; /* ←スマホの左右余白(ここを調整) */
+  --content-pad-mobile: 1.4rem; /* ←スマホの左右余白(ここを調整) */
 
   /* typography */
   --body-lh: 1.9;
