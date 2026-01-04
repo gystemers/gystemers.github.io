@@ -257,3 +257,21 @@ h1.title::after {
   background: rgba(255,255,255,.08);
   margin: 0 auto 1.2rem;
 }
+
+/* 画像中央寄せ指定 */
+
+figure, div.figure {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+figure img, div.figure img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+figure figcaption {
+  text-align: center;
+}

@@ -1,6 +1,6 @@
 #+TITLE: About
  #+options: toc:nil num:nil \n:t
-
+ #+LANGUAGE: ja
 * 自己紹介
 - 名前：藤本教寛 / Yukihiro Fujimoto
 - 所属：沖縄工業高等専門学校（沖縄高専）　基盤教育科

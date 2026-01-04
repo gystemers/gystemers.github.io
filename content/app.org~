@@ -1,0 +1,45 @@
+#+TITLE:アプリまとめ
+#+options: num:nil \n:t
+#+MACRO: ruby @@latex:\ltjruby{$1}{$2}@@ @@html:<ruby>$1<rt>$2</rt></ruby>@@
+[[file:index.org][戻る]]
+* Homebrew
+** アプリを簡単にインストールしたり，新しいPCで全アプリ入れ直しの際に最強
+アプリやフォントなどをターミナルを使って管理する．慣れるとインストール自体がかなり楽なのと，PCを移行する際などにアプリを再インストールする手間がかなり軽減される．日常で使うほとんどのアプリ＆フォントはhomebrew上にあるので，terminalで動かすとカッコいいし，楽しいし，何より{{{ruby(楽,らく)}}}ちん．
+#+begin_src shell
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+#+end_src
+上記のコマンドをターミナルに打ち込むことで，homebrewをインストールでき，その後は brew コマンドを使って欲しいアプリをインストールできる．
+
+* Wezterm
+かっこよくアレンジしやすいterminal. Luaで書かれていて，設定ファイルを移行して読み取らせるだけで，簡単にセッティングを終わらせることができる．あと，iTermなどと比べて幾分軽い印象．
+#+begin_src
+brew install --cask wezterm
+#+end_src
+インストール終了後，
+#+begin_src
+open -a WezTerm
+#+end_src
+で起動．
+#+CAPTION: カスタムされたWeztermの外見
+#+ATTR_HTML: :width 500px
+[[file:~/Resilio Sync/my-homepage/static/img/スクリーンショット 2026-01-03 4.24.47.png]]
+#+CAPTION: Weztermを使った更新風景
+#+ATTR_HTML: :width 500px
+[[file:~/Resilio Sync/my-homepage/static/img/スクリーンショット 2026-01-03 4.25.46.png]]
+* Azookey
+「ことえり」や"Google日本語"などと同じ，日本語入力メソッド．「ことえり」のライブ変換が気に入らなかったことと，「ことえり」だとoutlookでメールを作成する際に色々と問題が起こった（最後の一文字が，enterを押すまで入力されない etc.）が，ライブ変換は使いたかったので，こちらに変更（Google日本語にはライブ変換がない）．しかし，英語入力はMacOS標準搭載の
+- com.apple.keylayout.DVORAK-QWERTYCMD
+- com.apple.keylayout.ABC
+を使用．
+#+begin_src
+brew install --cask azookey
+#+end_src
+
+* Rectangle
+更新が止まっているShiftItの代替アプリ（上位互換）．ShiftItの時にはできなかった1/3寄せや2/3寄せなどができる．Luaで設定をexportし，別のPCでもImportできる．
+#+begin_src
+brew install --cask rectangle
+#+end_src
+
+
+[[file:index.org][戻る]]
