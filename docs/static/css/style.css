@@ -1,12 +1,12 @@
 @charset "utf-8";
 /* =========================================================
    Lab / Personal page style (Org export friendly)
-   - cleaned & consolidated (2026-01-04)
+   - consolidated + mobile padding 1.4rem
+   - desktop banding fix: dithered background image
    ========================================================= */
 
 :root {
   /* colors */
-  --bg-color: #394c5b;
   --bg-inverse-color: #ebedee;
 
   /* accent */
@@ -19,36 +19,51 @@
   --link-visited: #d6c33a;
 
   /* layout */
-  --content-max: 62rem;     /* ~992px */
-  --content-pad: 1.5rem;   /* desktop/tablet */
-  --content-pad-mobile: 1.4rem; /* ←スマホの左右余白(ここを調整) */
+  --content-max: 62rem;
+  --content-pad: 1.5rem;
+  --content-pad-mobile: 1.4rem; /* ←スマホの左右余白 */
 
   /* typography */
   --body-lh: 1.9;
 
-  /* page background (single source of truth) */
+  /* CSS gradient fallback */
   --page-bg:
     radial-gradient(1200px 800px at 50% -10%, rgba(66,185,255,.10), transparent 60%),
     radial-gradient(900px 600px at 10% 30%, rgba(255,255,255,.06), transparent 55%),
     linear-gradient(180deg, #11161b 0%, #1a232a 40%, #11161b 100%);
 }
 
-/* box model (prevents width/padding surprises) */
 *, *::before, *::after { box-sizing: border-box; }
 
 html, body { height: 100%; }
 
 body {
   margin: 0;
-  background: var(--page-bg);
-  background-color: #11161b; /* fallback */
   color: var(--bg-inverse-color);
   line-height: var(--body-lh);
   letter-spacing: .02em;
+
+  /* fallback first */
+  background: var(--page-bg);
+  background-color: #11161b;
 }
 
 /* =========================================================
-   Content container (Org export)
+   Desktop banding fix: use dithered raster background on non-touch
+   Put bg_dither_2560x1600.png under static/img/ and adjust path if needed.
+   ========================================================= */
+@media (hover: hover) and (pointer: fine) {
+  body {
+    background-image: url("../img/bg_dither_2560x1600.png");
+    background-size: cover;
+    background-position: 50% 0%;
+    background-repeat: no-repeat;
+    /* background-attachment: fixed;  // uncomment if you like fixed background */
+  }
+}
+
+/* =========================================================
+   Content container
    ========================================================= */
 #content {
   max-width: var(--content-max);
@@ -74,14 +89,12 @@ h1.title::after {
   opacity: .9;
 }
 
-/* section spacing (Org headings) */
 .outline-2 {
   margin: 2.2rem 0 3.2rem;
   padding: 1.6rem 0 0;
   border-top: 1px solid rgba(255,255,255,.08);
 }
 
-/* headings */
 .outline-2 > h2,
 #content h2 {
   margin: 0 0 1rem;
@@ -111,7 +124,6 @@ h1.title::after {
 #content ul, #content ol { margin: .6rem 0 1.2rem 1.4rem; }
 #content li { margin: .35rem 0; }
 
-/* links */
 #content a {
   color: var(--link);
   text-decoration: underline;
@@ -124,7 +136,6 @@ h1.title::after {
   text-decoration-thickness: 2px;
 }
 
-/* images */
 #content img {
   max-width: 100%;
   height: auto;
@@ -143,7 +154,6 @@ h1.title::after {
   color: rgba(235,237,238,.75);
 }
 
-/* code blocks */
 #content pre {
   background: rgba(0,0,0,.35);
   color: rgba(235,237,238,.92);
@@ -153,7 +163,6 @@ h1.title::after {
   overflow: auto;
 }
 
-/* optional card */
 .card {
   background: rgba(255,255,255,.04);
   border: 1px solid rgba(255,255,255,.08);
@@ -162,7 +171,6 @@ h1.title::after {
   box-shadow: 0 10px 26px rgba(0,0,0,.25);
 }
 
-/* hero 3-column */
 .hero-3 {
   display: grid;
   grid-template-columns: 1fr 1.1fr 1fr;
@@ -181,9 +189,7 @@ h1.title::after {
   color: rgba(235,237,238,.95);
 }
 
-/* =========================================================
-   Postamble (footer)
-   ========================================================= */
+/* footer */
 #postamble,
 #postamble.status,
 .status { border-top: none !important; }
@@ -207,8 +213,6 @@ h1.title::after {
 }
 
 #postamble p { margin: 0; }
-
-/* remove accidental short rules inside postamble */
 #postamble hr { display: none !important; }
 #postamble, #postamble * {
   border: none !important;
@@ -219,7 +223,6 @@ h1.title::after {
 #postamble p::before,
 #postamble p::after { content: none !important; }
 
-/* figure centering (org) */
 figure, div.figure {
   text-align: center;
   margin-left: auto;
@@ -232,30 +235,22 @@ figure img, div.figure img {
 }
 figure figcaption { text-align: center; }
 
-/* =========================================================
-   Mobile tweaks (single, consolidated)
-   ========================================================= */
+/* mobile */
 @media (max-width: 760px) {
-  /* content padding: ←スマホ左右余白はここで調整 */
   #content { padding: 1.6rem var(--content-pad-mobile) 3.2rem; }
-
-  /* keep footer aligned with content on mobile */
   #postamble { padding-left: var(--content-pad-mobile); padding-right: var(--content-pad-mobile); }
-
-  /* hero becomes single column */
   .hero-3 { grid-template-columns: 1fr; }
-
-  /* mobile viewport height stability */
   html, body { min-height: 100vh; }
   @supports (height: 100svh) { html, body { min-height: 100svh; } }
   @supports (height: 100dvh) { html, body { min-height: 100dvh; } }
+}
 
-  /* iOS(WebKit) seam fix: use fixed background on html::before */
-  @supports (-webkit-touch-callout: none) {
+/* iOS seam fix (only real small touch devices) */
+@supports (-webkit-touch-callout: none) {
+  @media (max-device-width: 760px) and (hover: none) and (pointer: coarse) {
     html, body { background: none !important; }
     body { background-color: transparent !important; }
     html { background-color: #11161b; }
-
     html::before {
       content: "";
       position: fixed;

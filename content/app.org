@@ -23,10 +23,10 @@ open -a WezTerm
 で起動．
 #+CAPTION: カスタムされたWeztermの外見
 #+ATTR_HTML: :width 500px
-[[file:~/Resilio Sync/my-homepage/static/img/スクリーンショット 2026-01-03 4.24.47.png]]
+[[file:static/img/wezterm_img/スクリーンショット 2026-01-03 4.24.47.png]]
 #+CAPTION: Weztermを使った更新風景
 #+ATTR_HTML: :width 500px
-[[file:~/Resilio Sync/my-homepage/static/img/スクリーンショット 2026-01-03 4.25.46.png]]
+[[file:static/img/wezterm_img/スクリーンショット 2026-01-03 4.25.46.png]]
 * Azookey
 「ことえり」や"Google日本語"などと同じ，日本語入力メソッド．「ことえり」のライブ変換が気に入らなかったことと，「ことえり」だとoutlookでメールを作成する際に色々と問題が起こった（最後の一文字が，enterを押すまで入力されない etc.）が，ライブ変換は使いたかったので，こちらに変更（Google日本語にはライブ変換がない）．しかし，英語入力はMacOS標準搭載の
 - com.apple.keylayout.DVORAK-QWERTYCMD
