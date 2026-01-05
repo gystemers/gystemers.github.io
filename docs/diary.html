@@ -17,13 +17,38 @@
 <p>
 <a href="index.html">トップへ戻る</a><br />
 </p>
-<div id="outline-container-org59e20fe" class="outline-2">
-<h2 id="org59e20fe">2026年1月</h2>
-<div class="outline-text-2" id="text-org59e20fe">
+<div id="outline-container-org41e316d" class="outline-2">
+<h2 id="org41e316d">2026年1月</h2>
+<div class="outline-text-2" id="text-org41e316d">
 </div>
-<div id="outline-container-org31a2a5d" class="outline-3">
-<h3 id="org31a2a5d">2026-01-04 Sun</h3>
-<div class="outline-text-3" id="text-org31a2a5d">
+<div id="outline-container-org0d43b9f" class="outline-3">
+<h3 id="org0d43b9f">2026-01-05 Mon</h3>
+<div class="outline-text-3" id="text-org0d43b9f">
+<p>
+研究室のPCのEmacs設定ファイルを家のものと同期した所，初起動のvtermがコンパイルできなかったり，Emacs からフォーカスが外れたときに日本語ソースを com.apple.keylayout.ABC から com.apple.keylayout.DVORAK-QWERTYCMD に動してくれていた仕組みが動かなくなっちゃったりで，色々と試行錯誤．<br />
+vtermはインストールされているはずの「CMakeが見つからない」というエラーが出ていたが，これは MacPortsのCMake と HomebrewのCMake の両方をインストールしてしまっていて，参照先が喧嘩していたことが原因だったようだ．<br />
+</p>
+<pre class="example">
+sudo port uninstall cmake and installed
+</pre>
+<p>
+で MacPorts側のCMakeを削除して，Emacs内でも<br />
+</p>
+<pre class="example">
+which cmake
+</pre>
+<p>
+の参照先をRefすることで事なきを得た．<br />
+Emacs からフォーカスが外れても macism でMacOSの入力ソースが ABC から Dvorak+QWERTY⌘ に変わらない問題は，使っていた「add-hook focus-in-hook」などのコマンドがオワコンとなっていたからのようで，M365 copilot (GPT 5.2) の助けを借りながら，新しい hook コマンドで書き直すことでなんとか決着．<br />
+やはりこういう時に Lisp言語 などの本質を全く自分が理解していないことを痛感する．<br />
+……のだが，物理と違ってアプリはあくまで「道具」なので，そこはAIに任せて自分の無駄な時間を割くのはやめよう……と，そっとプログラム本を閉じたのだった．<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge14312f" class="outline-3">
+<h3 id="orge14312f">2026-01-04 Sun</h3>
+<div class="outline-text-3" id="text-orge14312f">
 <p>
 気がつけば2025年が終わり新年を迎えたので，重い腰を上げて，ホームページを立ち上げたの巻．<br />
 今までも何度かホームページやブログを立ち上げたものの，更新するためにhtmlを弄ったり，ブログにログインしてあれこれするのが面倒だったため，常に三日坊主に終わっていた．<br />
@@ -39,7 +64,7 @@
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="postamble">&copy; 藤本教寛（沖縄高専） / Yukihiro Fujimoto (Okinawa KOSEN) &nbsp;|&nbsp; 最終更新: 2026-01-04</p>
+<p class="postamble">&copy; 藤本教寛（沖縄高専） / Yukihiro Fujimoto (Okinawa KOSEN) &nbsp;|&nbsp; 最終更新: 2026-01-05</p>
 </div>
 </body>
 </html>
